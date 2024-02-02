@@ -6,7 +6,7 @@ import (
 	"sort"
 )
 
-func sortByQuantity(stats []model.CollectionStats) {
+func reverseSortByQuantity(stats []model.CollectionStats) {
 	lessFunc := func(i, j int) bool {
 		return stats[i].DocumentCount > stats[j].DocumentCount
 	}
@@ -14,7 +14,7 @@ func sortByQuantity(stats []model.CollectionStats) {
 	sort.Slice(stats, lessFunc)
 }
 
-func mergeSort(allCollections [][]model.CollectionStats) []model.CollectionStats {
+func mergeReverseSort(allCollections [][]model.CollectionStats) []model.CollectionStats {
 	if len(allCollections) == 0 {
 		log.Printf("MongoDB is empty")
 		return []model.CollectionStats{}

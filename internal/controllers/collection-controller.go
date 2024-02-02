@@ -81,12 +81,9 @@ func stoutResponse(slice []model.CollectionStats) {
 	}
 
 	var sb strings.Builder
-
+	sb.WriteString("List of collection in MongoDB: \n")
 	for _, stats := range slice {
-		sb.WriteString(stats.CollectionName)
-		sb.WriteString(": ")
-		sb.WriteString(fmt.Sprintf("%d", stats.DocumentCount))
-		sb.WriteString("\n")
+		sb.WriteString(fmt.Sprintf("%s: %d \n", stats.CollectionName, stats.DocumentCount))
 	}
 
 	log.Println(sb.String())

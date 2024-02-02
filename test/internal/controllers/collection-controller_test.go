@@ -44,8 +44,10 @@ func TestGetNumberOfFiles(t *testing.T) {
 
 func TestGetNumberOfFilesByDatabaseName(t *testing.T) {
 	controller := controllers.NewCollectionController(&MockMiddleware{})
+	requestBody := `{"database":"test_name"}`
+	req := httptest.NewRequest("GET", "/database", strings.NewReader(requestBody))
+	req.Header.Set("Content-Type", "application/json")
 
-	req := httptest.NewRequest("GET", "/test_database", nil)
 	w := httptest.NewRecorder()
 
 	controller.GetNumberOfFilesByDatabaseName(w, req)

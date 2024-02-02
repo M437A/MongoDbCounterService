@@ -42,23 +42,22 @@ func (m *CollectionMiddleware) GetNumberOfFilesFromAllDB(ctx context.Context) ([
 
 	for _, database := range databases {
 		wg.Add(1)
-		go func(database string) {
+		go func(databaseName string) {
 			defer wg.Done()
-			collectionsList, err := m.GetListOfCollectionsStats(database, ctx)
+			collectionsList, err := m.GetListOfCollectionsStats(databaseName, ctx)
 			if err != nil {
-				log.Printf("Can't get list of CollectionsStats for %s, err: %v", database, err)
+				log.Printf("Can't get list of CollectionsStats for %s, err: %v", databaseName, err)
 				return
 			}
 
 			mu.Lock()
 			allCollections = append(allCollections, collectionsList)
 			mu.Unlock()
-
 		}(database)
 	}
 
 	wg.Wait()
-	finalListOfCollections := mergeSort(allCollections)
+	finalListOfCollections := mergeReverseSort(allCollections)
 	return finalListOfCollections, nil
 }
 
@@ -86,7 +85,7 @@ func (m *CollectionMiddleware) GetListOfCollectionsStats(database string, ctx co
 	}
 
 	wg.Wait()
-	sortByQuantity(stats)
+	reverseSortByQuantity(stats)
 	return stats, nil
 }
 
